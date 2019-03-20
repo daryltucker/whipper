@@ -5,17 +5,13 @@ logger = logging.getLogger(__name__)
 
 
 def eject_device(device):
-    """
-    Eject the given device.
-    """
+    """Eject the given device."""
     logger.debug("ejecting device %s", device)
     os.system('eject %s' % device)
 
 
 def load_device(device):
-    """
-    Load the given device.
-    """
+    """Load the given device."""
     logger.debug("loading (eject -t) device %s", device)
     os.system('eject -t %s' % device)
 

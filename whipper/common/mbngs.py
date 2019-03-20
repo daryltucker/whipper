@@ -58,13 +58,15 @@ class TrackMetadata(object):
 
 class DiscMetadata(object):
     """
-    @param artist:       artist(s) name
-    @param sortName:     release artist sort name
-    @param release:      earliest release date, in YYYY-MM-DD
-    @type  release:      unicode
-    @param title:        title of the disc (with disambiguation)
-    @param releaseTitle: title of the release (without disambiguation)
-    @type  tracks:       C{list} of L{TrackMetadata}
+
+
+    :cvar artist: artist(s) name
+    :cvar sortName: release artist sort name
+    :cvar release: earliest release date, in YYYY-MM-DD
+    :vartype release: unicode
+    :cvar title: title of the disc (with disambiguation)
+    :cvar releaseTitle: title of the release (without disambiguation)
+    :vartype tracks: list(TrackMetadata)
     """
     artist = None
     sortName = None
@@ -117,7 +119,7 @@ def _record(record, which, name, what):
 
 class _Credit(list):
     """
-    I am a representation of an artist-credit in MusicBrainz for a disc
+    Representation of an artist-credit in MusicBrainz for a disc
     or track.
     """
 
@@ -163,11 +165,12 @@ def _getWorks(recording):
 
 def _getMetadata(release, discid, country=None):
     """
-    @type  release: C{dict}
-    @param release: a release dict as returned in the value for key release
-                    from get_release_by_id
 
-    @rtype: L{DiscMetadata} or None
+
+    :param release: a release dict as returned in the value for key release
+                    from get_release_by_id
+    :type release: dict
+    :rtype: DiscMetadata or None
     """
     logger.debug('getMetadata for release id %r', release['id'])
     if not release['id']:
@@ -279,11 +282,10 @@ def musicbrainz(discid, country=None, record=False):
     Based on a MusicBrainz disc id, get a list of DiscMetadata objects
     for the given disc id.
 
-    Example disc id: Mj48G109whzEmAbPBoGvd4KyCS4-
+    Example disc id: ``Mj48G109whzEmAbPBoGvd4KyCS4-``
 
-    @type  discid: str
-
-    @rtype: list of L{DiscMetadata}
+    :type discid: str
+    :rtype: list(DiscMetadata)
     """
     logger.debug('looking up results for discid %r', discid)
     import musicbrainzngs

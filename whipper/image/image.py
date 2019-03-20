@@ -18,9 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with whipper.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Wrap on-disk CD images based on the .cue file.
-"""
+"""Wrap on-disk CD images based on the .cue file."""
 
 import os
 
@@ -35,16 +33,14 @@ logger = logging.getLogger(__name__)
 
 
 class Image(object):
-    """
-    @ivar table: The Table of Contents for this image.
-    @type table: L{table.Table}
-    """
     logCategory = 'Image'
 
     def __init__(self, path):
         """
-        @type  path: unicode
-        @param path: .cue path
+
+
+        :param path: .cue path
+        :type path: unicode
         """
         assert isinstance(path, unicode), "%r is not unicode" % path
 
@@ -60,7 +56,8 @@ class Image(object):
         """
         Translate the .cue's FILE to an existing path.
 
-        @param path: .cue path
+        :param path: .cue path
+        :type path: unicode
         """
         assert isinstance(path, unicode), "%r is not unicode" % path
 
@@ -174,9 +171,7 @@ class ImageVerifyTask(task.MultiSeparateTask):
 
 
 class ImageEncodeTask(task.MultiSeparateTask):
-    """
-    I encode a disk image to a different format.
-    """
+    """I encode a disk image to a different format."""
 
     description = "Encoding tracks"
 

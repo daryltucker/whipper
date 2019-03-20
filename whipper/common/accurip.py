@@ -97,12 +97,14 @@ def _split_responses(raw_entry):
 
 def calculate_checksums(track_paths):
     """
-    Return ARv1 and ARv2 checksums as two arrays of character strings in a
-    dictionary: {'v1': ['deadbeef', ...], 'v2': [...]}
-
-    Return None instead of checksum string for unchecksummable tracks.
+    Calculate AccurateRip checksums for the given tracks.
 
     HTOA checksums are not included in the database and are not calculated.
+
+    :returns: ARv1 and ARv2 checksums as two arrays of character strings in a
+              dictionary: ``{'v1': ['deadbeef', ...], 'v2': [...]}``
+              or None instead of checksum string for unchecksummable tracks.
+    :rtype: dict(string, list()) or None
     """
     track_count = len(track_paths)
     v1_checksums = []
@@ -160,10 +162,12 @@ def _save_entry(raw_entry, path):
 
 def get_db_entry(path):
     """
-    Retrieve cached AccurateRip disc entry as array of _AccurateRipResponses.
-    Downloads entry from accuraterip.com on cache fault.
+    Retrieve cached AccurateRip disc entry as
+    array of ``_AccurateRipResponses``.
 
-    `path' is in the format of the output of table.accuraterip_path().
+    Downloads entry from ``accuraterip.com`` on cache fault.
+
+    ``path`` is in the format of the output of ``table.accuraterip_path()``.
     """
     cached_path = join(_CACHE_DIR, path)
     if exists(cached_path):
@@ -194,8 +198,9 @@ def _match_responses(tracks, responses):
     Match and save track accuraterip response checksums against
     all non-hidden tracks.
 
-    Returns True if every track has a match for every entry for either
-    AccurateRip version.
+    :returns: True if every track has a match for every entry for either
+              AccurateRip version, False otherwise.
+    :rtype: bool
     """
     for r in responses:
         for i, track in enumerate(tracks):
@@ -218,7 +223,8 @@ def _match_responses(tracks, responses):
 def verify_result(result, responses, checksums):
     """
     Verify track AccurateRip checksums against database responses.
-    Stores track checksums and database values on result.
+
+    Store track checksums and database values on result.
     """
     if not (result and responses and checksums):
         return False
@@ -233,9 +239,7 @@ def verify_result(result, responses, checksums):
 
 
 def print_report(result):
-    """
-    Print AccurateRip verification results.
-    """
+    """Print AccurateRip verification results."""
     for _, track in enumerate(result.tracks):
         status = 'rip NOT accurate'
         conf = '(not found)'

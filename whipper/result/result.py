@@ -41,12 +41,13 @@ class TrackResult:
 
     def __init__(self):
         """
-        CRC: calculated 4 byte AccurateRip CRC
-        DBCRC: 4 byte AccurateRip CRC from the AR database
-        DBConfidence: confidence for the matched AccurateRip DB CRC
 
-        DBMaxConfidence: track's maximum confidence in the AccurateRip DB
-        DBMaxConfidenceCRC: maximum confidence CRC
+
+        * CRC: calculated 4 byte AccurateRip CRC
+        * DBCRC: 4 byte AccurateRip CRC from the AR database
+        * DBConfidence: confidence for the matched AccurateRip DB CRC
+        * DBMaxConfidence: track's maximum confidence in the AccurateRip DB
+        * DBMaxConfidenceCRC: maximum confidence CRC
         """
         self.AR = {
             'v1': {
@@ -66,21 +67,20 @@ class TrackResult:
 
 class RipResult:
     """
-    I hold information about the result for rips.
-    I can be used to write log files.
+    Hold information about the result for rips.
 
-    @ivar offset: sample read offset
-    @ivar table:  the full index table
-    @type table:  L{whipper.image.table.Table}
-    @ivar metadata: disc metadata from MusicBrainz (if available)
-    @type metadata: L{whipper.common.mbngs.DiscMetadata}
+    It can be used to write log files.
 
-    @ivar vendor:  vendor of the CD drive
-    @ivar model:   model of the CD drive
-    @ivar release: release of the CD drive
-
-    @ivar cdrdaoVersion:     version of cdrdao used for the rip
-    @ivar cdparanoiaVersion: version of cdparanoia used for the rip
+    :cvar offset: sample read offset
+    :cvar table: the full index table
+    :vartype table: whipper.image.table.Table
+    :cvar metadata: disc metadata from MusicBrainz (if available)
+    :vartype metadata: whipper.common.mbngs.DiscMetadata
+    :cvar vendor: vendor of the CD drive
+    :cvar model: model of the CD drive
+    :cvar release: release of the CD drive
+    :cvar cdrdaoVersion: version of cdrdao used for the rip
+    :cvar cdparanoiaVersion: version of cdparanoia used for the rip
     """
 
     offset = 0
@@ -107,10 +107,11 @@ class RipResult:
 
     def getTrackResult(self, number):
         """
-        @param number: the track number (0 for HTOA)
 
-        @type  number: int
-        @rtype: L{TrackResult}
+
+        :param number: the track number (0 for HTOA)
+        :type number: int
+        :rtype: TrackResult
         """
         for t in self.tracks:
             if t.number == number:
@@ -120,19 +121,16 @@ class RipResult:
 
 
 class Logger(object):
-    """
-    I log the result of a rip.
-    """
+    """Log the result of a rip."""
 
     def log(self, ripResult, epoch=time.time()):
         """
         Create a log from the given ripresult.
 
-        @param epoch:     when the log file gets generated
-        @type  epoch:     float
-        @type  ripResult: L{RipResult}
-
-        @rtype: str
+        :param epoch: when the log file gets generated
+        :type epoch: float
+        :type ripResult: RipResult
+        :rtype: str
         """
         raise NotImplementedError
 
@@ -151,9 +149,9 @@ class EntryPoint(object):
 
 def getLoggers():
     """
-    Get all logger plugins with entry point 'whipper.logger'.
+    Get all logger plugins with entry point ``whipper.logger``.
 
-    @rtype: dict of C{str} -> C{Logger}
+    :rtype: dict(str, Logger)
     """
     d = {}
 

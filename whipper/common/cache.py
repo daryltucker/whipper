@@ -38,13 +38,12 @@ class Persister:
     Instantiate me with a path to automatically unpickle the object.
     Call persist to store the object to disk; it will get stored if it
     changed from the on-disk object.
-
-    @ivar object: the persistent object
     """
 
     def __init__(self, path=None, default=None):
         """
         If path is not given, the object will not be persisted.
+
         This allows code to transparently deal with both persisted and
         non-persisted objects, since the persist method will just end up
         doing nothing.
@@ -116,9 +115,7 @@ class Persister:
 
 
 class PersistedCache:
-    """
-    I wrap a directory of persisted objects.
-    """
+    """Wrap a directory of persisted objects."""
 
     path = None
 
@@ -134,9 +131,7 @@ class PersistedCache:
         return os.path.join(self.path, '%s.pickle' % key)
 
     def get(self, key):
-        """
-        Returns the persister for the given key.
-        """
+        """Return the persister for the given key."""
         persister = Persister(self._getPath(key))
         if persister.object:
             if hasattr(persister.object, 'instanceVersion'):
@@ -162,7 +157,7 @@ class ResultCache:
         Retrieve the persistable RipResult either from our cache (from a
         previous, possibly aborted rip), or return a new one.
 
-        @rtype: L{Persistable} for L{result.RipResult}
+        :rtype: Persistable for result.RipResult
         """
         presult = self._pcache.get(cddbdiscid)
 
@@ -190,7 +185,7 @@ class ResultCache:
 class TableCache:
 
     """
-    I read and write entries to and from the cache of tables.
+    Read and write entries to and from the cache of tables.
 
     If no path is specified, the cache will write to the current cache
     directory and read from all possible cache directories (to allow for

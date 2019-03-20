@@ -37,12 +37,8 @@ logger = logging.getLogger(__name__)
 
 
 class FileSizeError(Exception):
-
+    """The given path does not have the expected size."""
     message = None
-
-    """
-    The given path does not have the expected size.
-    """
 
     def __init__(self, path, message):
         self.args = (path, message)
@@ -51,9 +47,7 @@ class FileSizeError(Exception):
 
 
 class ReturnCodeError(Exception):
-    """
-    The program had a non-zero return code.
-    """
+    """The program had a non-zero return code."""
 
     def __init__(self, returncode):
         self.args = (returncode, )
@@ -88,10 +82,12 @@ class ProgressParser:
 
     def __init__(self, start, stop):
         """
-        @param start:  first frame to rip
-        @type  start:  int
-        @param stop:   last frame to rip (inclusive)
-        @type  stop:   int
+
+
+        :param start: first frame to rip
+        :type start: int
+        :param stop: last frame to rip (inclusive)
+        :type stop: int
         """
         self.start = start
         self.stop = stop
@@ -102,9 +98,7 @@ class ProgressParser:
         self._reads = {}  # read count for each sector
 
     def parse(self, line):
-        """
-        Parse a line.
-        """
+        """Parse a line."""
         m = _PROGRESS_RE.search(line)
         if m:
             # code = int(m.group('code'))
@@ -185,6 +179,7 @@ class ProgressParser:
     def getTrackQuality(self):
         """
         Each frame gets read twice.
+
         More than two reads for a frame reduce track quality.
         """
         frames = self.stop - self.start + 1  # + 1 since stop is inclusive
@@ -203,12 +198,7 @@ class ProgressParser:
 
 
 class ReadTrackTask(task.Task):
-    """
-    I am a task that reads a track using cdparanoia.
-
-    @ivar reads: how many reads were done to rip the track
-    """
-
+    """Task that reads a track using cdparanoia."""
     description = "Reading track"
     quality = None  # set at end of reading
     speed = None
@@ -221,22 +211,22 @@ class ReadTrackTask(task.Task):
         """
         Read the given track.
 
-        @param path:   where to store the ripped track
-        @type  path:   unicode
-        @param table:  table of contents of CD
-        @type  table:  L{table.Table}
-        @param start:  first frame to rip
-        @type  start:  int
-        @param stop:   last frame to rip (inclusive); >= start
-        @type  stop:   int
-        @param offset: read offset, in samples
-        @type  offset: int
-        @param device: the device to rip from
-        @type  device: str
-        @param action: a string representing the action; e.g. Read/Verify
-        @type  action: str
-        @param what:   a string representing what's being read; e.g. Track
-        @type  what:   str
+        :param path: where to store the ripped track
+        :type path: unicode
+        :param table: table of contents of CD
+        :type table: table.Table
+        :param start: first frame to rip
+        :type start: int
+        :param stop: last frame to rip (inclusive); >= start
+        :type stop: int
+        :param offset: read offset, in samples
+        :type offset: int
+        :param device: the device to rip from
+        :type device: str
+        :param action: a string representing the action; e.g. Read/Verify
+        :type action: str
+        :param what: a string representing what's being read; e.g. Track
+        :type what: str
         """
         assert isinstance(path, unicode), "%r is not unicode" % path
 
@@ -397,23 +387,23 @@ class ReadTrackTask(task.Task):
 
 class ReadVerifyTrackTask(task.MultiSeparateTask):
     """
-    I am a task that reads and verifies a track using cdparanoia.
-    I also encode the track.
+    Task that reads and verifies a track using cdparanoia.
+
+    It also encodes the track.
 
     The path where the file is stored can be changed if necessary, for
     example if the file name is too long.
 
-    @ivar path:         the path where the file is to be stored.
-    @ivar checksum:     the checksum of the track; set if they match.
-    @ivar testchecksum: the test checksum of the track.
-    @ivar copychecksum: the copy checksum of the track.
-    @ivar testspeed:    the test speed of the track, as a multiple of
-                        track duration.
-    @ivar copyspeed:    the copy speed of the track, as a multiple of
-                        track duration.
-    @ivar testduration: the test duration of the track, in seconds.
-    @ivar copyduration: the copy duration of the track, in seconds.
-    @ivar peak:         the peak level of the track
+    :cvar checksum: the checksum of the track; set if they match
+    :cvar testchecksum: the test checksum of the track
+    :cvar copychecksum: the copy checksum of the track
+    :cvar testspeed: the test speed of the track, as a multiple of
+                     track duration
+    :cvar copyspeed: the copy speed of the track, as a multiple of
+                     track duration
+    :cvar testduration: the test duration of the track, in seconds
+    :cvar copyduration: the copy duration of the track, in seconds
+    :cvar peak: the peak level of the track
     """
 
     checksum = None
@@ -432,20 +422,22 @@ class ReadVerifyTrackTask(task.MultiSeparateTask):
     def __init__(self, path, table, start, stop, overread, offset=0,
                  device=None, taglist=None, what="track"):
         """
-        @param path:    where to store the ripped track
-        @type  path:    str
-        @param table:   table of contents of CD
-        @type  table:   L{table.Table}
-        @param start:   first frame to rip
-        @type  start:   int
-        @param stop:    last frame to rip (inclusive)
-        @type  stop:    int
-        @param offset:  read offset, in samples
-        @type  offset:  int
-        @param device:  the device to rip from
-        @type  device:  str
-        @param taglist: a dict of tags
-        @type  taglist: dict
+
+
+        :param path: where to store the ripped track
+        :type path: str
+        :param table: table of contents of CD
+        :type table: table.Table
+        :param start: first frame to rip
+        :type start: int
+        :param stop: last frame to rip (inclusive)
+        :type stop: int
+        :param offset: read offset, in samples
+        :type offset: int
+        :param device: the device to rip from
+        :type device: str
+        :param taglist: a dict of tags
+        :type taglist: dict
         """
         task.MultiSeparateTask.__init__(self)
 

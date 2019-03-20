@@ -28,9 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 class TaskException(Exception):
-    """
-    I wrap an exception that happened during task execution.
-    """
+    """Wrap an exception that happened during task execution."""
 
     exception = None  # original exception
 
@@ -45,6 +43,7 @@ class TaskException(Exception):
 def _getExceptionMessage(exception, frame=-1, filename=None):
     """
     Return a short message based on an exception, useful for debugging.
+
     Tries to find where the exception was triggered.
     """
     import traceback
@@ -70,9 +69,7 @@ def _getExceptionMessage(exception, frame=-1, filename=None):
 
 
 class LogStub(object):
-    """
-    I am a stub for a log interface.
-    """
+    """Stub for a log interface."""
 
     @staticmethod
     def log(message, *args):
@@ -89,17 +86,18 @@ class LogStub(object):
 
 class Task(LogStub):
     """
-    I wrap a task in an asynchronous interface.
-    I can be listened to for starting, stopping, description changes
+    Wrap a task in an asynchronous interface.
+
+    Can be listened to for starting, stopping, description changes
     and progress updates.
 
     I communicate an error by setting self.exception to an exception and
     stopping myself from running.
     The listener can then handle the Task.exception.
 
-    @ivar  description: what am I doing
-    @ivar  exception:   set if an exception happened during the task
-                        execution.  Will be raised through run() at the end.
+    :cvar description: what am I doing
+    :cvar exception: set if an exception happened during the task
+                     execution. Will be raised through ``run()`` at the end
     """
     logCategory = 'Task'
 
@@ -127,7 +125,7 @@ class Task(LogStub):
         using those methods.
 
         If start doesn't raise an exception, the task should run until
-        complete, or setException and stop().
+        complete, or ``setException()`` and ``stop()``.
         """
         self.debug('starting')
         self.setProgress(self.progress)
@@ -161,6 +159,7 @@ class Task(LogStub):
     def setProgress(self, value):
         """
         Notify about progress changes bigger than the increment.
+
         Called by subclass implementations as the task progresses.
         """
         if (value - self.progress > self.increment or
@@ -179,7 +178,7 @@ class Task(LogStub):
     def setExceptionAndTraceback(self, exception):
         """
         Call this to set a synthetically created exception (and not one
-        that was actually raised and caught)
+        that was actually raised and caught).
         """
         import traceback
 
@@ -202,9 +201,7 @@ class Task(LogStub):
     setAndRaiseException = setExceptionAndTraceback
 
     def setException(self, exception):
-        """
-        Call this to set a caught exception on the task.
-        """
+        """Call this to set a caught exception on the task."""
         import traceback
 
         self.exception = exception
@@ -245,25 +242,23 @@ class Task(LogStub):
 
 # FIXME: should this become a real interface, like in zope ?
 class ITaskListener(object):
-    """
-    I am an interface for objects listening to tasks.
-    """
+    """An interface for objects listening to tasks."""
     # listener callbacks
 
     def progressed(self, task, value):
         """
         Implement me to be informed about progress.
 
-        @type  value: float
-        @param value: progress, from 0.0 to 1.0
+        :param value: progress, from 0.0 to 1.0
+        :type value: float
         """
 
     def described(self, task, description):
         """
         Implement me to be informed about description changes.
 
-        @type  description: str
-        @param description: description
+        :param description: description
+        :type description: str
         """
 
     def started(self, task):
@@ -298,8 +293,8 @@ class BaseMultiTask(Task, ITaskListener):
     """
     I perform multiple tasks.
 
-    @ivar tasks: the tasks to run
-    @type tasks: list of L{Task}
+    :cvar tasks: the tasks to run
+    :vartype tasks: list(Task)
     """
 
     description = 'Doing various tasks'
@@ -313,7 +308,7 @@ class BaseMultiTask(Task, ITaskListener):
         """
         Add a task.
 
-        @type task: L{Task}
+        :type task: Task
         """
         if self.tasks is None:
             self.tasks = []
@@ -323,7 +318,7 @@ class BaseMultiTask(Task, ITaskListener):
         """
         Start tasks.
 
-        Tasks can still be added while running.  For example,
+        Tasks can still be added while running. For example,
         a first task can determine how many additional tasks to run.
         """
         Task.start(self, runner)
@@ -336,9 +331,7 @@ class BaseMultiTask(Task, ITaskListener):
         self.next()
 
     def next(self):
-        """
-        Start the next task.
-        """
+        """Start the next task."""
         try:
             # start next task
             task = self.tasks[self._task]
@@ -368,6 +361,7 @@ class BaseMultiTask(Task, ITaskListener):
     def stopped(self, task):
         """
         Subclasses should chain up to me at the end of their implementation.
+
         They should fall through to chaining up if there is an exception.
         """
         self.debug('BaseMultiTask.stopped: task %r (%d of %d)',
@@ -392,8 +386,9 @@ class BaseMultiTask(Task, ITaskListener):
 
 class MultiSeparateTask(BaseMultiTask):
     """
-    I perform multiple tasks.
-    I track progress of each individual task, going back to 0 for each task.
+    Perform multiple tasks.
+
+    Track progress of each individual task, going back to 0 for each task.
     """
     description = 'Doing various tasks separately'
 
@@ -418,8 +413,9 @@ class MultiSeparateTask(BaseMultiTask):
 
 class MultiCombinedTask(BaseMultiTask):
     """
-    I perform multiple tasks.
-    I track progress as a combined progress on all tasks on task granularity.
+    Perform multiple tasks.
+
+    Track progress as a combined progress on all tasks on task granularity.
     """
 
     description = 'Doing various tasks combined'
@@ -437,7 +433,8 @@ class MultiCombinedTask(BaseMultiTask):
 
 class TaskRunner(LogStub):
     """
-    I am a base class for task runners.
+    Base class for task runners.
+
     Task runners should be reusable.
     """
     logCategory = 'TaskRunner'
@@ -446,7 +443,7 @@ class TaskRunner(LogStub):
         """
         Run the given task.
 
-        @type  task: Task
+        :type task: Task
         """
         raise NotImplementedError
 
@@ -457,16 +454,14 @@ class TaskRunner(LogStub):
 
         Subclasses should implement this.
 
-        @type  delta: float
-        @param delta: time in the future to schedule call for, in seconds.
+        :param delta: time in the future to schedule call for, in seconds.
+        :type delta: float
         """
         raise NotImplementedError
 
 
 class SyncRunner(TaskRunner, ITaskListener):
-    """
-    I run the task synchronously in a GObject MainLoop.
-    """
+    """Run the task synchronously in a GObject MainLoop."""
 
     def __init__(self, verbose=True):
         self._verbose = verbose
