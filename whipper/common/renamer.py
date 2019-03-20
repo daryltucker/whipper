@@ -34,14 +34,13 @@ class Operator(object):
         self._resuming = False
 
     def addOperation(self, operation):
-        """
-        Add an operation.
-        """
+        """Add an operation."""
         self._todo.append(operation)
 
     def load(self):
         """
         Load state from the given state path using the given key.
+
         Verifies the state.
         """
         todo = os.path.join(self._statePath, self._key + '.todo')
@@ -66,9 +65,7 @@ class Operator(object):
         self._resuming = True
 
     def save(self):
-        """
-        Saves the state to the given state path using the given key.
-        """
+        """Save the state to the given state path using the given key."""
         # only save todo first time
         todo = os.path.join(self._statePath, self._key + '.todo')
         if not os.path.exists(todo):
@@ -87,9 +84,7 @@ class Operator(object):
                 handle.write('%s %s\n' % (name, data))
 
     def start(self):
-        """
-        Execute the operations
-        """
+        """Execute the operations."""
 
     def next(self):
         operation = self._todo[len(self._done)]
@@ -109,10 +104,10 @@ class FileRenamer(Operator):
         """
         Add a rename operation.
 
-        :param source:      source filename
-        :type  source:      str
+        :param source: source filename
+        :type source: str
         :param destination: destination filename
-        :type  destination: str
+        :type destination: str
         """
 
 
@@ -121,28 +116,28 @@ class Operation(object):
     def verify(self):
         """
         Check if the operation will succeed in the current conditions.
-        Consider this a pre-flight check.
 
+        Consider this a pre-flight check.
         Does not eliminate the need to handle errors as they happen.
         """
 
     def do(self):
-        """
-        Perform the operation.
-        """
+        """Perform the operation."""
         pass
 
     def redo(self):
         """
-        Perform the operation, without knowing if it already has been
-        (partly) performed.
+        Perform the operation.
+
+        Perform it without knowing if it already has been (partly) performed.
         """
         self.do()
 
     def serialize(self):
         """
         Serialize the operation.
-        The return value should bu usable with deserialize
+
+        The return value should be usable with ``deserialize``.
 
         :rtype: str
         """
@@ -151,7 +146,7 @@ class Operation(object):
         """
         Deserialize the operation with the given operation data.
 
-        :type  data: str
+        :type data: str
         """
         raise NotImplementedError
     deserialize = classmethod(deserialize)
