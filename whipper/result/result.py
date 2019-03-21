@@ -41,7 +41,7 @@ class TrackResult:
 
     def __init__(self):
         """
-
+        Init TrackResult.
 
         * CRC: calculated 4 byte AccurateRip CRC
         * DBCRC: 4 byte AccurateRip CRC from the AR database
@@ -107,10 +107,11 @@ class RipResult:
 
     def getTrackResult(self, number):
         """
-
+        Return TrackResult for the given track number.
 
         :param number: the track number (0 for HTOA)
         :type number: int
+        :returns: TrackResult for the given track number
         :rtype: TrackResult
         """
         for t in self.tracks:

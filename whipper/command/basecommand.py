@@ -50,6 +50,7 @@ class BaseCommand:
     :cvar no_add_help: if set to True removes ``-h`` ``--help``
                        option from current command
     """
+
     device_option = False
     no_add_help = False  # for rip.main.Whipper
     formatter_class = argparse.RawDescriptionHelpFormatter

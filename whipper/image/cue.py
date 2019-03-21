@@ -60,11 +60,12 @@ _INDEX_RE = re.compile(r"""
 
 class CueFile(object):
     """Represent a .cue file as an object."""
+
     logCategory = 'CueFile'
 
     def __init__(self, path):
         """
-
+        Init CueFile.
 
         :param path: path to track
         :type path: unicode
@@ -152,6 +153,8 @@ class CueFile(object):
         """
         Add a message about a given line in the cue file.
 
+        :param message: a text line in the cue sheet
+        :type message: str
         :param number: line number, counting from 0
         :type number: int
         """
@@ -192,7 +195,7 @@ class File:
 
     def __init__(self, path, file_format):
         """
-
+        Init File.
 
         :param path: path to track
         :type path: unicode

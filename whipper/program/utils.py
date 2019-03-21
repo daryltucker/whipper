@@ -18,8 +18,9 @@ def load_device(device):
 
 def unmount_device(device):
     """
-    Unmount the given device if it is mounted, as happens with automounted
-    data tracks.
+    Unmount the given device if it is mounted.
+
+    This usueally happens with automounted data tracks.
 
     If the given device is a symlink, the target will be checked.
     """

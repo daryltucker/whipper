@@ -18,9 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with whipper.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Common functionality and class for all programs using whipper.
-"""
+"""Common functionality and class for all programs using whipper."""
 
 import musicbrainzngs
 import re
@@ -59,7 +57,7 @@ class Program:
 
     def __init__(self, config, record=False):
         """
-
+        Init Program.
 
         :param record: whether to record results of API calls for playback
         """
@@ -153,8 +151,9 @@ class Program:
 
     def getRipResult(self, cddbdiscid):
         """
-        Retrieve the persistable RipResult either from our cache (from a
-        previous, possibly aborted rip), or return a new one.
+        Get the persistable RipResult either from our cache or ret. a new one.
+
+        The cached RipResult may come from an aborted rip.
 
         :rtype: result.RipResult
         """
@@ -179,8 +178,9 @@ class Program:
 
     def getPath(self, outdir, template, mbdiscid, metadata, track_number=None):
         """
-        Return disc or track path relative to outdir according to
-        template. Track paths do not include extension.
+        Return disc or track path relative to outdir according to template.
+
+        Track paths do not include extension.
 
         Tracks are named according to the track template, filling in
         the variables and adding the file extension. Variables
@@ -252,7 +252,7 @@ class Program:
     @staticmethod
     def getCDDB(cddbdiscid):
         """
-
+        Fetch basic metadata from freedb's CDDB.
 
         :param cddbdiscid: list of id, tracks, offsets, seconds
         :rtype: str
@@ -278,9 +278,20 @@ class Program:
     def getMusicBrainz(self, ittoc, mbdiscid, release=None, country=None,
                        prompt=False):
         """
+        Fetch MusicBrainz's metadata for the given MusicBrainz disc id.
 
-
+        :param ittoc: disc TOC
         :type ittoc: whipper.image.table.Table
+        :param mbdiscid: MusicBrainz DiscID
+        :type mbdiscid: str
+        :param release: MusicBrainz release id to match to
+                        (if there are multiple)
+        :type release: str or None
+        :param country: country name used to filter releases by provenance
+        :type country: str or None
+        :param prompt: whether to prompt if there are multiple
+                       matching releases
+        :type prompt: bool
         """
         # look up disc on MusicBrainz
         print('Disc duration: %s, %d audio tracks' % (
@@ -402,6 +413,8 @@ class Program:
 
         :param number: track number (0 for HTOA)
         :type number: int
+        :param mbdiscid: MusicBrainz DiscID
+        :type mbdiscid: str
         :rtype: dict
         """
         trackArtist = u'Unknown Artist'
@@ -503,11 +516,26 @@ class Program:
     def ripTrack(self, runner, trackResult, offset, device, taglist,
                  overread, what=None):
         """
+        Rip and store a track of the disc.
+
         Ripping the track may change the track's filename as stored in
         trackResult.
 
+        :param runner: synchronous track rip task
+        :type runner: task.SyncRunner
         :param trackResult: the object to store information in
         :type trackResult: result.TrackResult
+        :param offset: ripping offset, in CD frames
+        :type offset: int
+        :param device: path to the hardware disc drive
+        :type device: str
+        :param taglist: dictionary of tags for the given track
+        :type taglist: dict
+        :param overread: whether to force overreading into the
+                         lead-out portion of the disc
+        :type overread: bool
+        :param what: a string representing what's being read; e.g. Track
+        :type what: str or None
         """
         if trackResult.number == 0:
             start, stop = self.getHTOA()

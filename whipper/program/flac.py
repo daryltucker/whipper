@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 def encode(infile, outfile):
     """
-    Encodes infile to outfile, with flac.
+    Encode infile to outfile, with flac.
 
     Uses ``-f`` because whipper already creates the file.
     """

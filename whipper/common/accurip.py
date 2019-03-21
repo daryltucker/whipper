@@ -42,8 +42,7 @@ class EntryNotFound(Exception):
 
 class _AccurateRipResponse(object):
     """
-    An AccurateRip response contains a collection of metadata identifying a
-    particular digital audio compact disc.
+    An AR resp. contains a collection of metadata identifying a specific disc.
 
     For disc level metadata it contains the track count, two internal disc
     IDs, and the CDDB disc ID.
@@ -54,9 +53,12 @@ class _AccurateRipResponse(object):
 
     The response is stored as a packed binary structure.
     """
+
     def __init__(self, data):
         """
-        The checksums and confidences arrays are indexed by relative track
+        Init _AccurateRipResponse.
+
+        Checksums and confidences arrays are indexed by relative track
         position, so track 1 will have array index 0, track 2 will have array
         index 1, and so forth. HTOA and other hidden tracks are not included.
         """
@@ -162,10 +164,9 @@ def _save_entry(raw_entry, path):
 
 def get_db_entry(path):
     """
-    Retrieve cached AccurateRip disc entry as
-    array of ``_AccurateRipResponses``.
+    Retrieve cached AccurateRip disc entry as array of _AccurateRipResponses.
 
-    Downloads entry from ``accuraterip.com`` on cache fault.
+    Downloads entry from accuraterip.com on cache fault.
 
     ``path`` is in the format of the output of ``table.accuraterip_path()``.
     """
@@ -195,8 +196,7 @@ def _assign_checksums_and_confidences(tracks, checksums, responses):
 
 def _match_responses(tracks, responses):
     """
-    Match and save track accuraterip response checksums against
-    all non-hidden tracks.
+    Match and save track AR response checksums against all non-hidden tracks.
 
     :returns: True if every track has a match for every entry for either
               AccurateRip version, False otherwise.

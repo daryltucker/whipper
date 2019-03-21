@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 
 class FileSizeError(Exception):
     """The given path does not have the expected size."""
+
     message = None
 
     def __init__(self, path, message):
@@ -82,7 +83,7 @@ class ProgressParser:
 
     def __init__(self, start, stop):
         """
-
+        Init ProgressParser.
 
         :param start: first frame to rip
         :type start: int
@@ -199,6 +200,7 @@ class ProgressParser:
 
 class ReadTrackTask(task.Task):
     """Task that reads a track using cdparanoia."""
+
     description = "Reading track"
     quality = None  # set at end of reading
     speed = None
@@ -422,7 +424,7 @@ class ReadVerifyTrackTask(task.MultiSeparateTask):
     def __init__(self, path, table, start, stop, overread, offset=0,
                  device=None, taglist=None, what="track"):
         """
-
+        Init ReadVerifyTrackTask.
 
         :param path: where to store the ripped track
         :type path: str

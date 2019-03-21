@@ -55,8 +55,7 @@ class Persister:
 
     def persist(self, obj=None):
         """
-        Persist the given object, if we have a persistence path and the
-        object changed.
+        Persist the given obj if we have a persist. path and the obj changed.
 
         If object is not given, re-persist our object, always.
         If object is given, only persist if it was changed.
@@ -154,8 +153,9 @@ class ResultCache:
 
     def getRipResult(self, cddbdiscid, create=True):
         """
-        Retrieve the persistable RipResult either from our cache (from a
-        previous, possibly aborted rip), or return a new one.
+        Get the persistable RipResult either from our cache or ret. a new one.
+
+        The cached RipResult may come from an aborted rip.
 
         :rtype: Persistable for result.RipResult
         """
@@ -183,7 +183,6 @@ class ResultCache:
 
 
 class TableCache:
-
     """
     Read and write entries to and from the cache of tables.
 

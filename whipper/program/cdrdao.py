@@ -60,6 +60,7 @@ class ProgressParser:
 
 class ReadTOCTask(task.Task):
     """Task that reads the TOC of the disc using cdrdao."""
+
     description = "Reading TOC"
     toc = None
 
@@ -74,7 +75,6 @@ class ReadTOCTask(task.Task):
         :param toc_path: where to save TOC if wanted
         :type toc_path: str
         """
-
         self.device = device
         self.fast_toc = fast_toc
         self.toc_path = toc_path
@@ -185,5 +185,5 @@ def version():
 
 
 def getCDRDAOVersion():
-    """Stopgap morituri-insanity compatibility layer"""
+    """Stopgap morituri-insanity compatibility layer."""
     return version()

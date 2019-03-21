@@ -65,9 +65,7 @@ class Operator(object):
         self._resuming = True
 
     def save(self):
-        """
-        Save the state to the given state path using the given key.
-        """
+        """Save the state to the given state path using the given key."""
         # only save todo first time
         todo = os.path.join(self._statePath, self._key + '.todo')
         if not os.path.exists(todo):
@@ -129,8 +127,9 @@ class Operation(object):
 
     def redo(self):
         """
-        Perform the operation, without knowing if it already has been
-        (partly) performed.
+        Perform the operation.
+
+        Perform it without knowing if it already has been (partly) performed.
         """
         self.do()
 

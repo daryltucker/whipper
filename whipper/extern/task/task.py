@@ -99,6 +99,7 @@ class Task(LogStub):
     :cvar exception: set if an exception happened during the task
                      execution. Will be raised through ``run()`` at the end
     """
+
     logCategory = 'Task'
 
     description = 'I am doing something.'
@@ -136,6 +137,7 @@ class Task(LogStub):
     def stop(self):
         """
         Stop the task.
+
         Also resets the runner on the task.
 
         Subclasses should chain up to me at the end.
@@ -177,8 +179,9 @@ class Task(LogStub):
     # FIXME: unify?
     def setExceptionAndTraceback(self, exception):
         """
-        Call this to set a synthetically created exception (and not one
-        that was actually raised and caught).
+        Call this to set a synthetically created exception.
+
+        Not one that was actually raised and caught.
         """
         import traceback
 
@@ -243,12 +246,15 @@ class Task(LogStub):
 # FIXME: should this become a real interface, like in zope ?
 class ITaskListener(object):
     """An interface for objects listening to tasks."""
+
     # listener callbacks
 
     def progressed(self, task, value):
         """
         Implement me to be informed about progress.
 
+        :param task: a task
+        :type task: Task
         :param value: progress, from 0.0 to 1.0
         :type value: float
         """
@@ -257,18 +263,19 @@ class ITaskListener(object):
         """
         Implement me to be informed about description changes.
 
+        :param task: a task
+        :type task: Task
         :param description: description
         :type description: str
         """
 
     def started(self, task):
-        """
-        Implement me to be informed about the task starting.
-        """
+        """Implement me to be informed about the task starting."""
 
     def stopped(self, task):
         """
         Implement me to be informed about the task stopping.
+
         If the task had an error, task.exception will be set.
         """
 
@@ -358,7 +365,7 @@ class BaseMultiTask(Task, ITaskListener):
     def progressed(self, task, value):
         pass
 
-    def stopped(self, task):
+    def stopped(self, task):  # noqa: D401
         """
         Subclasses should chain up to me at the end of their implementation.
 
@@ -390,6 +397,7 @@ class MultiSeparateTask(BaseMultiTask):
 
     Track progress of each individual task, going back to 0 for each task.
     """
+
     description = 'Doing various tasks separately'
 
     def start(self, runner):
@@ -437,6 +445,7 @@ class TaskRunner(LogStub):
 
     Task runners should be reusable.
     """
+
     logCategory = 'TaskRunner'
 
     def run(self, task):
@@ -456,6 +465,8 @@ class TaskRunner(LogStub):
 
         :param delta: time in the future to schedule call for, in seconds.
         :type delta: float
+        :param callable_task: a task
+        :type callable_task: Task
         """
         raise NotImplementedError
 

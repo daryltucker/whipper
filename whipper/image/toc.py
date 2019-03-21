@@ -105,13 +105,15 @@ class Sources:
 
     def append(self, counter, offset, source):
         """
-
+        Append ``(counter, offset, source)`` tuple to the ``sources`` list.
 
         :param counter: the source counter; updates for each different
                         data source (silence or different file path)
         :type counter: int
         :param offset: the absolute disc offset where this source starts
         :type offset: int
+        :param source: data source
+        :type source: File or None
         """
         logger.debug('appending source, counter %d, abs offset %d, '
                      'source %r', counter, offset, source)
@@ -128,6 +130,10 @@ class Sources:
     def getCounterStart(self, counter):
         """
         Retrieve the absolute offset of the first source for this counter.
+
+        :param counter: the source counter; updates for each different
+                        data source (silence or different file path)
+        :type counter: int
         """
         for i, (c, _, _) in enumerate(self._sources):
             if c == counter:
@@ -140,7 +146,7 @@ class TocFile(object):
 
     def __init__(self, path):
         """
-
+        Init TocFile.
 
         :param path: path to track
         :type path: unicode
@@ -387,12 +393,16 @@ class TocFile(object):
 
         :param number: line number, counting from 0
         :type number: int
+        :param message: a text line in the cue sheet
+        :type message: str
         """
         self._messages.append((number + 1, message))
 
     def getTrackLength(self, track):
         """
-        Return the length of the given track, from its INDEX 01 to the next
+        Return the length of the given track, in CD frames.
+
+        The track length is calculated from its INDEX 01 to the next
         track's INDEX 01.
         """
         # returns track length in frames, or -1 if can't be determined and
@@ -429,10 +439,10 @@ class File:
 
     def __init__(self, path, start, length):
         """
-
+        Init File.
 
         :param path: path to track
-        :type  path: unicode
+        :type path: unicode
         :param start: starting point for the track in this file, in frames
         :type start: int
         :param length: length for the track in this file, in frames

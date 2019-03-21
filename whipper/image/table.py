@@ -89,10 +89,19 @@ class Track:
     def index(self, number, absolute=None, path=None, relative=None,
               counter=None):
         """
+        Instantiate Index object and store it in class variable.
 
-
+        :param number: index number
+        :type number: int
+        :param absolute: absolute index offset, in CD frames
+        :type absolute: int or None
         :param path: path to track
         :type path: unicode or None
+        :param relative: relative index offset, in CD frames
+        :type relative: int or None
+        :param counter: the source counter; updates for each different
+                        data source (silence or different file path)
+        :type counter: int or None
         """
         if path is not None:
             assert isinstance(path, unicode), "%r is not unicode" % path
@@ -119,7 +128,7 @@ class Track:
 
     def getPregap(self):
         """
-        Returns the length of the pregap for this track.
+        Return the length of the pregap for this track.
 
         The pregap is 0 if there is no index 0, and the difference between
         index 1 and index 0 if there is.
@@ -132,7 +141,7 @@ class Track:
 
 class Index:
     """
-
+    Represent an index of a track on a CD.
 
     :cvar counter: counter for the index source; distinguishes between
                    the matching FILE lines in .cue files for example
@@ -140,6 +149,7 @@ class Index:
     :cvar path: path to track
     :vartype path: unicode or None
     """
+
     number = None
     absolute = None
     path = None
@@ -198,7 +208,7 @@ class Table(object):
 
     def getTrackStart(self, number):
         """
-
+        Return the start of the given track number's index 1, in CD frames.
 
         :param number: the track number, 1-based
         :type number: int
@@ -210,7 +220,7 @@ class Table(object):
 
     def getTrackEnd(self, number):
         """
-
+        Return the end of the given track number, in CD frames.
 
         :param number: the track number, 1-based
         :type number: int
@@ -235,7 +245,7 @@ class Table(object):
 
     def getTrackLength(self, number):
         """
-
+        Return the length, in CD frames, for the given track number.
 
         :param number: the track number, 1-based
         :type number: int
@@ -246,18 +256,19 @@ class Table(object):
 
     def getAudioTracks(self):
         """
+        Return the number of audio tracks on the disc.
 
-
-        :returns: the number of audio tracks on the CD
+        :returns: the number of audio tracks on the disc
         :rtype: int
         """
         return len([t for t in self.tracks if t.audio])
 
     def hasDataTracks(self):
         """
+        Return whether the disc contains data tracks.
 
-
-        :returns: whether this disc contains data tracks
+        :returns: whether the disc contains data tracks
+        :rtype: bool
         """
         return len([t for t in self.tracks if not t.audio]) > 0
 
@@ -430,9 +441,7 @@ class Table(object):
         return durationFrames
 
     def duration(self):
-        """
-        Get the duration in ms for all audio tracks (excluding HTOA).
-        """
+        """Get the duration in ms for all audio tracks (excluding HTOA)."""
         return int(self.getFrameLength() * 1000.0 / common.FRAMES_PER_SECOND)
 
     def _getMusicBrainzValues(self):
@@ -490,6 +499,8 @@ class Table(object):
         :param cuePath: path to the cue file to be written. If empty,
                         will treat paths as if in current directory
         :type cuePath: unicode
+        :param program: name of the program (ripping software)
+        :type program: str
         :rtype: unicode
         """
         logger.debug('generating .cue for cuePath %r', cuePath)
@@ -642,15 +653,24 @@ class Table(object):
 
     def setFile(self, track, index, path, length, counter=None):
         """
-        Sets the given file as the source from the given index on.
+        Set the given file as the source from the given index on.
 
         Will loop over all indexes that fall within the given length,
         to adjust the path.
 
         Assumes all indexes have an absolute offset and will raise if not.
 
+        :param track: track number, 1-based
         :type track: int
+        :param index: index of the track
         :type index: int
+        :param path: path to track
+        :type path: unicode
+        :param length: length of the given track, in CD frames
+        :type length: int
+        :param counter: counter for the index source; distinguishes between
+                        the matching FILE lines in .cue files for example
+        :type counter: int or None
         """
         logger.debug('setFile: track %d, index %d, path %r, length %r, '
                      'counter %r', track, index, path, length, counter)
@@ -717,11 +737,14 @@ class Table(object):
 
     def merge(self, other, session=2):
         """
-        Merges the given table at the end.
+        Merge the given table at the end.
 
         The other table is assumed to be from an additional session,
 
+        :param other: session table
         :type other: Table
+        :param session: session number
+        :type session: int
         """
         gap = self._getSessionGap(session)
 
@@ -772,6 +795,8 @@ class Table(object):
         :type track: int
         :raises IndexError: on last index
         :rtype: tuple(int, int)
+        :param index: index of the next track
+        :type index: int
         """
         t = self.tracks[track - 1]
         indexes = list(t.indexes)
@@ -815,8 +840,11 @@ class Table(object):
 
     def accuraterip_ids(self):
         """
-        Return both AccurateRip disc ids as a tuple of 8-char
-        hexadecimal strings (discid1, discid2).
+        Return both AccurateRip disc ids.
+
+        :returns: both AccurateRip disc ids as a tuple of 8-char
+                  hexadecimal strings
+        :rtype: tuple(str, str)
         """
         # AccurateRip does not take into account data tracks,
         # but does count the data track to determine the leadout offset
@@ -849,9 +877,7 @@ class Table(object):
         )
 
     def canCue(self):
-        """
-        Check if this table can be used to generate a .cue file.
-        """
+        """Check if this table can be used to generate a .cue file."""
         if not self.hasTOC():
             logger.debug('no TOC, cannot cue')
             return False

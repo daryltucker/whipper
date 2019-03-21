@@ -37,7 +37,7 @@ class Image(object):
 
     def __init__(self, path):
         """
-
+        Init Image.
 
         :param path: .cue path
         :type path: unicode
@@ -65,8 +65,10 @@ class Image(object):
 
     def setup(self, runner):
         """
-        Do initial setup, like figuring out track lengths, and
-        constructing the Table of Contents.
+        Perform initial setup.
+
+        Like figuring out track lengths, and constructing
+        the Table of Contents.
         """
         logger.debug('setup image start')
         verify = ImageVerifyTask(self)
@@ -105,9 +107,7 @@ class Image(object):
 
 
 class ImageVerifyTask(task.MultiSeparateTask):
-    """
-    I verify a disk image and get the necessary track lengths.
-    """
+    """Verify a disk image and get the necessary track lengths."""
 
     logCategory = 'ImageVerifyTask'
 

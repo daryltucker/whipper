@@ -18,9 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with whipper.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-Handles communication with the MusicBrainz server using NGS.
-"""
+"""Handle communication with the MusicBrainz server using NGS."""
 import urllib2
 
 import whipper
@@ -58,7 +56,7 @@ class TrackMetadata(object):
 
 class DiscMetadata(object):
     """
-
+    Represent the disc metadata.
 
     :cvar artist: artist(s) name
     :cvar sortName: release artist sort name
@@ -68,6 +66,7 @@ class DiscMetadata(object):
     :cvar releaseTitle: title of the release (without disambiguation)
     :vartype tracks: list(TrackMetadata)
     """
+
     artist = None
     sortName = None
     title = None
@@ -118,10 +117,7 @@ def _record(record, which, name, what):
 
 
 class _Credit(list):
-    """
-    Representation of an artist-credit in MusicBrainz for a disc
-    or track.
-    """
+    """Represent an artist-credit in MusicBrainz for a disc or track."""
 
     def joiner(self, attributeGetter, joinString=None):
         res = []
@@ -165,7 +161,7 @@ def _getWorks(recording):
 
 def _getMetadata(release, discid, country=None):
     """
-
+    Get disc metadata based upon the provided release id.
 
     :param release: a release dict as returned in the value for key release
                     from get_release_by_id
@@ -279,13 +275,16 @@ def _getMetadata(release, discid, country=None):
 
 def musicbrainz(discid, country=None, record=False):
     """
-    Based on a MusicBrainz disc id, get a list of DiscMetadata objects
-    for the given disc id.
+    Get a list of DiscMetadata objects for the given MusicBrainz disc id.
 
     Example disc id: ``Mj48G109whzEmAbPBoGvd4KyCS4-``
 
     :type discid: str
     :rtype: list(DiscMetadata)
+    :param country: country name used to filter releases by provenance
+    :type country: str
+    :param record: whether to record to disc as a JSON serialization
+    :type record: bool
     """
     logger.debug('looking up results for discid %r', discid)
     import musicbrainzngs

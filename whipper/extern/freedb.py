@@ -22,13 +22,14 @@ import sys
 
 def digit_sum(i):
     """Return the sum of all digits for the given integer."""
-
     return sum(map(int, str(i)))
 
 
 class DiscID(object):
     def __init__(self, offsets, total_length, track_count, playable_length):
         """
+        Init DiscID.
+
         :param offsets: list of track offsets, in CD frames
         :param total_length: total length of the disc, in seconds
         :param track_count: total number of tracks on the disc
@@ -37,7 +38,6 @@ class DiscID(object):
         The first three items are for generating the hex disc ID itself
         while the last is for performing queries.
         """
-
         assert(len(offsets) == track_count)
         for o in offsets:
             assert(o >= 0)
@@ -74,16 +74,14 @@ class DiscID(object):
 
 def perform_lookup(disc_id, freedb_server, freedb_port):
     """
-    Perform a web-based lookup using a DiscID
-    on the given freedb_server string and freedb_int port.
+    Perform a web-based lookup using a DiscID on the given server and port.
 
-    Iterates over a list of MetaData objects per successful match, like:
-    [track1, track2, ...], [track1, track2, ...], ...
+    Iterate over a list of MetaData objects per successful match, like:
+    ``[track1, track2, ...], [track1, track2, ...], ...``
 
     :raises HTTPError: if an error occurs querying the server
     :raises ValueError: if the server returns invalid data
     """
-
     import re
     from time import sleep
 
@@ -168,11 +166,17 @@ def perform_lookup(disc_id, freedb_server, freedb_port):
 
 def freedb_command(freedb_server, freedb_port, cmd, *args):
     """
-    Given a freedb_server string, freedb_port int,
-    command unicode string and argument unicode strings,
-    yields a list of Unicode strings.
-    """
+    Generate and perform a query against FreeDB using the given command.
 
+    Yields a list of Unicode strings.
+
+    :param freedb_server: URL of FreeDB server to be queried
+    :type freedb_server: str
+    :param freedb_port: port number of FreeDB server to be queried
+    :type freedb_port: int
+    :param cmd: CDDB command
+    :type cmd: unicode
+    """
     try:
         from urllib.request import urlopen
         from urllib.error import URLError
