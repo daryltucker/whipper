@@ -58,13 +58,13 @@ class TrackMetadata(object):
 
 class DiscMetadata(object):
     """
-    @param artist:       artist(s) name
-    @param sortName:     release artist sort name
-    @param release:      earliest release date, in YYYY-MM-DD
-    @type  release:      unicode
-    @param title:        title of the disc (with disambiguation)
-    @param releaseTitle: title of the release (without disambiguation)
-    @type  tracks:       list of TrackMetadata
+    :param artist:       artist(s) name
+    :param sortName:     release artist sort name
+    :param release:      earliest release date, in YYYY-MM-DD
+    :type  release:      unicode
+    :param title:        title of the disc (with disambiguation)
+    :param releaseTitle: title of the release (without disambiguation)
+    :type  tracks:       list of TrackMetadata
     """
     artist = None
     sortName = None
@@ -163,11 +163,11 @@ def _getWorks(recording):
 
 def _getMetadata(release, discid, country=None):
     """
-    @type  release: dict
-    @param release: a release dict as returned in the value for key release
+    :type  release: dict
+    :param release: a release dict as returned in the value for key release
                     from get_release_by_id
 
-    @rtype: DiscMetadata or None
+    :rtype: DiscMetadata or None
     """
     logger.debug('getMetadata for release id %r', release['id'])
     if not release['id']:
@@ -281,9 +281,9 @@ def musicbrainz(discid, country=None, record=False):
 
     Example disc id: Mj48G109whzEmAbPBoGvd4KyCS4-
 
-    @type  discid: str
+    :type  discid: str
 
-    @rtype: list of DiscMetadata
+    :rtype: list of DiscMetadata
     """
     logger.debug('looking up results for discid %r', discid)
     import musicbrainzngs
