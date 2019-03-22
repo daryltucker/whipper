@@ -45,11 +45,11 @@ class Program:
     I maintain program state and functionality.
 
     @ivar metadata:
-    @type metadata: L{mbngs.DiscMetadata}
+    @type metadata: mbngs.DiscMetadata
     @ivar result:   the rip's result
-    @type result:   L{result.RipResult}
+    @type result:   result.RipResult
     @type outdir:   unicode
-    @type config:   L{whipper.common.config.Config}
+    @type config:   whipper.common.config.Config
     """
 
     cuePath = None
@@ -109,7 +109,7 @@ class Program:
         """
         Retrieve the Table either from the cache or the drive.
 
-        @rtype: L{table.Table}
+        @rtype: table.Table
         """
         tcache = cache.TableCache()
         ptable = tcache.get(cddbdiscid, mbdiscid)
@@ -153,7 +153,7 @@ class Program:
         Retrieve the persistable RipResult either from our cache (from a
         previous, possibly aborted rip), or return a new one.
 
-        @rtype: L{result.RipResult}
+        @rtype: result.RipResult
         """
         assert self.result is None
 
@@ -272,7 +272,7 @@ class Program:
     def getMusicBrainz(self, ittoc, mbdiscid, release=None, country=None,
                        prompt=False):
         """
-        @type  ittoc: L{whipper.image.table.Table}
+        @type  ittoc: whipper.image.table.Table
         """
         # look up disc on MusicBrainz
         print('Disc duration: %s, %d audio tracks' % (
@@ -499,7 +499,7 @@ class Program:
         trackResult.
 
         @param trackResult: the object to store information in.
-        @type  trackResult: L{result.TrackResult}
+        @type  trackResult: result.TrackResult
         """
         if trackResult.number == 0:
             start, stop = self.getHTOA()

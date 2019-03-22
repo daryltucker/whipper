@@ -142,7 +142,7 @@ class Operation(object):
     def serialize(self):
         """
         Serialize the operation.
-        The return value should bu usable with L{deserialize}
+        The return value should bu usable with deserialize
 
         @rtype: str
         """

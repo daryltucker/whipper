@@ -162,7 +162,7 @@ class ResultCache:
         Retrieve the persistable RipResult either from our cache (from a
         previous, possibly aborted rip), or return a new one.
 
-        @rtype: L{Persistable} for L{result.RipResult}
+        @rtype: Persistable for result.RipResult
         """
         presult = self._pcache.get(cddbdiscid)
 
