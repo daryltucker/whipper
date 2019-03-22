@@ -109,10 +109,10 @@ class FileRenamer(Operator):
         """
         Add a rename operation.
 
-        @param source:      source filename
-        @type  source:      str
-        @param destination: destination filename
-        @type  destination: str
+        :param source:      source filename
+        :type  source:      str
+        :param destination: destination filename
+        :type  destination: str
         """
 
 
@@ -144,14 +144,14 @@ class Operation(object):
         Serialize the operation.
         The return value should bu usable with deserialize
 
-        @rtype: str
+        :rtype: str
         """
 
     def deserialize(cls, data):
         """
         Deserialize the operation with the given operation data.
 
-        @type  data: str
+        :type  data: str
         """
         raise NotImplementedError
     deserialize = classmethod(deserialize)
