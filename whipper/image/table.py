@@ -61,10 +61,10 @@ class Track:
     @type number:       int
     @ivar audio:        whether the track is audio
     @type audio:        bool
-    @type indexes:      dict of number -> L{Index}
+    @type indexes:      dict of number -> Index
     @ivar isrc:         ISRC code (12 alphanumeric characters)
     @type isrc:         str
-    @ivar cdtext:       dictionary of CD Text information; see L{CDTEXT_KEYS}.
+    @ivar cdtext:       dictionary of CD Text information; see CDTEXT_KEYS.
     @type cdtext:       str -> unicode
     @ivar pre_emphasis: whether track is pre-emphasised
     @type pre_emphasis: bool
@@ -162,7 +162,7 @@ class Table(object):
     I represent a table of indexes on a CD.
 
     @ivar tracks:  tracks on this CD
-    @type tracks:  list of L{Track}
+    @type tracks:  list of Track
     @ivar catalog: catalog number
     @type catalog: str
     @type cdtext:  dict of str -> str
@@ -476,7 +476,7 @@ class Table(object):
 
         Dump our internal representation to a .cue file content.
 
-        @rtype: C{unicode}
+        @rtype: unicode
         """
         logger.debug('generating .cue for cuePath %r', cuePath)
 
@@ -633,8 +633,8 @@ class Table(object):
 
         Assumes all indexes have an absolute offset and will raise if not.
 
-        @type  track: C{int}
-        @type  index: C{int}
+        @type  track: int
+        @type  index: int
         """
         logger.debug('setFile: track %d, index %d, path %r, length %r, '
                      'counter %r', track, index, path, length, counter)
@@ -704,7 +704,7 @@ class Table(object):
         The other table is assumed to be from an additional session,
 
 
-        @type  other: L{Table}
+        @type  other: Table
         """
         gap = self._getSessionGap(session)
 

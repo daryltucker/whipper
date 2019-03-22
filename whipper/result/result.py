@@ -71,9 +71,9 @@ class RipResult:
 
     @ivar offset: sample read offset
     @ivar table:  the full index table
-    @type table:  L{whipper.image.table.Table}
+    @type table:  whipper.image.table.Table
     @ivar metadata: disc metadata from MusicBrainz (if available)
-    @type metadata: L{whipper.common.mbngs.DiscMetadata}
+    @type metadata: whipper.common.mbngs.DiscMetadata
 
     @ivar vendor:  vendor of the CD drive
     @ivar model:   model of the CD drive
@@ -110,7 +110,7 @@ class RipResult:
         @param number: the track number (0 for HTOA)
 
         @type  number: int
-        @rtype: L{TrackResult}
+        @rtype: TrackResult
         """
         for t in self.tracks:
             if t.number == number:
@@ -130,7 +130,7 @@ class Logger(object):
 
         @param epoch:     when the log file gets generated
         @type  epoch:     float
-        @type  ripResult: L{RipResult}
+        @type  ripResult: RipResult
 
         @rtype: str
         """
@@ -153,7 +153,7 @@ def getLoggers():
     """
     Get all logger plugins with entry point 'whipper.logger'.
 
-    @rtype: dict of C{str} -> C{Logger}
+    @rtype: dict of str -> Logger
     """
     d = {}
 

@@ -62,7 +62,7 @@ class CueFile(object):
     """
     I represent a .cue file as an object.
 
-    @type table: L{table.Table}
+    @type table: table.Table
     @ivar table: the index table.
     """
     logCategory = 'CueFile'

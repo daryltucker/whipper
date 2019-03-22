@@ -299,7 +299,7 @@ class BaseMultiTask(Task, ITaskListener):
     I perform multiple tasks.
 
     @ivar tasks: the tasks to run
-    @type tasks: list of L{Task}
+    @type tasks: list of Task
     """
 
     description = 'Doing various tasks'
@@ -313,7 +313,7 @@ class BaseMultiTask(Task, ITaskListener):
         """
         Add a task.
 
-        @type task: L{Task}
+        @type task: Task
         """
         if self.tasks is None:
             self.tasks = []

@@ -424,8 +424,8 @@ class File:
 
     def __init__(self, path, start, length):
         """
-        @type  path:   C{unicode}
-        @type  start:  C{int}
+        @type  path:   unicode
+        @type  start:  int
         @param start:  starting point for the track in this file, in frames
         @param length: length for the track in this file, in frames
         """

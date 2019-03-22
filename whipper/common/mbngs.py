@@ -64,7 +64,7 @@ class DiscMetadata(object):
     @type  release:      unicode
     @param title:        title of the disc (with disambiguation)
     @param releaseTitle: title of the release (without disambiguation)
-    @type  tracks:       C{list} of L{TrackMetadata}
+    @type  tracks:       list of TrackMetadata
     """
     artist = None
     sortName = None
@@ -163,11 +163,11 @@ def _getWorks(recording):
 
 def _getMetadata(release, discid, country=None):
     """
-    @type  release: C{dict}
+    @type  release: dict
     @param release: a release dict as returned in the value for key release
                     from get_release_by_id
 
-    @rtype: L{DiscMetadata} or None
+    @rtype: DiscMetadata or None
     """
     logger.debug('getMetadata for release id %r', release['id'])
     if not release['id']:
@@ -283,7 +283,7 @@ def musicbrainz(discid, country=None, record=False):
 
     @type  discid: str
 
-    @rtype: list of L{DiscMetadata}
+    @rtype: list of DiscMetadata
     """
     logger.debug('looking up results for discid %r', discid)
     import musicbrainzngs
